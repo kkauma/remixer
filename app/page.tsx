@@ -29,7 +29,7 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-6">Content Remix Tool</h1>
 
       <textarea
-        className="w-full h-40 p-2 border rounded mb-4"
+        className="w-full h-40 p-2 border rounded mb-4 text-black"
         placeholder="Paste your content here..."
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
