@@ -232,13 +232,15 @@ export default function Home() {
         {isSidebarOpen ? "→" : "←"}
       </button>
 
+      {/* Updated Sidebar with Scroll */}
       <div
-        className={`fixed right-0 top-0 h-full w-80 bg-white/10 backdrop-blur-xl transform transition-transform duration-300 ${
+        className={`fixed right-0 top-0 h-full w-80 bg-white/10 backdrop-blur-xl transform transition-transform duration-300 flex flex-col ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+        {/* Fixed Header */}
+        <div className="p-6 border-b border-white/10">
+          <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold text-white">
               Saved Variations
             </h2>
@@ -263,13 +265,17 @@ export default function Home() {
               </svg>
             </button>
           </div>
-          <div className="space-y-4">
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-6 space-y-4">
             {savedVariations.map((variation) => (
               <div
                 key={variation.id}
                 className="p-4 bg-white/5 rounded-lg group relative"
               >
-                <p className="text-white/80">{variation.text}</p>
+                <p className="text-white/80 pr-8">{variation.text}</p>
                 <button
                   onClick={() => deleteVariation(variation.id)}
                   className="absolute top-2 right-2 text-white/40 hover:text-white/80 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-white/10"
