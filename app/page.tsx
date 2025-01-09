@@ -69,6 +69,18 @@ export default function Home() {
     }
   };
 
+  // Add delete function
+  const deleteVariation = async (id: number) => {
+    const { error } = await supabase
+      .from("saved_variations")
+      .delete()
+      .eq("id", id);
+
+    if (!error) {
+      setSavedVariations(savedVariations.filter((v) => v.id !== id));
+    }
+  };
+
   return (
     <div className="relative min-h-screen">
       <main className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-400 to-orange-300">
@@ -226,13 +238,58 @@ export default function Home() {
         }`}
       >
         <div className="p-6">
-          <h2 className="text-xl font-semibold text-white mb-6">
-            Saved Variations
-          </h2>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-white">
+              Saved Variations
+            </h2>
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="text-white/60 hover:text-white p-2 rounded-lg hover:bg-white/10"
+              title="Close sidebar"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
           <div className="space-y-4">
             {savedVariations.map((variation) => (
-              <div key={variation.id} className="p-4 bg-white/5 rounded-lg">
+              <div
+                key={variation.id}
+                className="p-4 bg-white/5 rounded-lg group relative"
+              >
                 <p className="text-white/80">{variation.text}</p>
+                <button
+                  onClick={() => deleteVariation(variation.id)}
+                  className="absolute top-2 right-2 text-white/40 hover:text-white/80 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-white/10"
+                  title="Delete variation"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    />
+                  </svg>
+                </button>
               </div>
             ))}
           </div>
