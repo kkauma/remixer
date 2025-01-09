@@ -16,16 +16,13 @@ export async function POST(request: Request) {
     const message = await anthropic.messages.create({
       model: "claude-3-5-sonnet-20241022",
       max_tokens: 1000,
-      temperature: 0,
+      temperature: 0.7,
       messages: [
         {
           role: "user",
-          content: [
-            {
-              type: "text",
-              text: text,
-            },
-          ],
+          content: `Please provide exactly 5 creative remixes of the following text. Each remix should be on a new line and should be different in style, tone, or format while preserving the core meaning:
+
+${text}`,
         },
       ],
     });
