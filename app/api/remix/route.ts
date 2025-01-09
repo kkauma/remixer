@@ -20,21 +20,25 @@ export async function POST(request: Request) {
       messages: [
         {
           role: "user",
-          content: `Generate 5 creative remixes of this text. Format your response with ONLY the 5 remixes, one per line, no introduction or additional text:
+          content: `Rewrite the following text in EXACTLY 4 different styles. Each style should be dramatically different (e.g., academic, casual/Gen-Z, poetic, humorous). Provide ONLY the 4 variations, each on its own line, with no additional text or numbering:
 
-${text}`,
+${text}
+
+Remember: I need EXACTLY 4 variations, no more, no less.`,
         },
       ],
     });
 
-    // Filter out any empty lines and get only valid remixes
+    // Ensure exactly 4 variations
     const remixedText =
       message.content[0].type === "text"
         ? message.content[0].text
             .split("\n")
             .filter((line) => line.trim()) // Remove empty lines
-            .filter((line) => !line.includes("remixes") && !line.includes(":")) // Remove intro text
-            .slice(0, 5) // Take only 5 remixes
+            .filter(
+              (line) => !line.includes("variations") && !line.includes(":")
+            ) // Remove intro text
+            .slice(0, 4) // Take exactly 4 variations
             .join("\n")
         : "";
 
