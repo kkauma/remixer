@@ -20,17 +20,25 @@ export async function POST(request: Request) {
       messages: [
         {
           role: "user",
-          content: `Please provide exactly 5 creative remixes of the following text. Each remix should be on a new line and should be different in style, tone, or format while preserving the core meaning:
+          content: `Generate 5 creative remixes of this text. Format your response with ONLY the 5 remixes, one per line, no introduction or additional text:
 
 ${text}`,
         },
       ],
     });
 
-    return NextResponse.json({
-      remixedText:
-        message.content[0].type === "text" ? message.content[0].text : "",
-    });
+    // Filter out any empty lines and get only valid remixes
+    const remixedText =
+      message.content[0].type === "text"
+        ? message.content[0].text
+            .split("\n")
+            .filter((line) => line.trim()) // Remove empty lines
+            .filter((line) => !line.includes("remixes") && !line.includes(":")) // Remove intro text
+            .slice(0, 5) // Take only 5 remixes
+            .join("\n")
+        : "";
+
+    return NextResponse.json({ remixedText });
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json(
