@@ -31,7 +31,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({
-      remixedText: message.content[0].text,
+      remixedText:
+        message.content[0].type === "text" ? message.content[0].text : "",
     });
   } catch (error) {
     console.error("Error:", error);
